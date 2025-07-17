@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoList на Vue</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>Мой Todo List</h1>
+        
+        <div class="add-task">
+            <input 
+                v-model="newTask" 
+                @keyup.enter="addTask" 
+                placeholder="Добавить новую задачу..."
+            >
+            <button @click="addTask">Добавить</button>
+        </div>
+        
+        <ul class="task-list">
+            <li v-for="(task, index) in tasks" :key="index" :class="{ completed: task.completed }">
+                <div class="task-content">
+                    <input 
+                        type="checkbox" 
+                        v-model="task.completed"
+                        @change="updateTaskStatus(index)"
+                        class="task-checkbox"
+                    >
+                    <span @click="toggleComplete(index)">{{ task.text }}</span>
+                </div>
+                <button @click="removeTask(index)">×</button>
+            </li>
+        </ul>
+        
+        <div class="stats" v-if="tasks.length">
+            Всего задач: {{ tasks.length }} | 
+            Выполнено: {{ completedCount }}
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
